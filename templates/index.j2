@@ -1,23 +1,89 @@
 <html>
 <head>
-<title>Javascript sagt Hallo</title>
-<script src="/static/jquery-3.6.3.min.js"></script>
+<title>Hyperdeck Time Remaining</title>
+
 <script src="/static/socket.io-4.5.4.min.js" crossorigin="anonymous"></script>
 <style>
+#remaining-container {
+    # width: 100px;
+    height: 12em;
+    position: absolute;
+    top:0;
+    bottom: 0;
+    left: 0;
+    right: 0;    
+    margin: auto;
+    text-align: center;
+    font-family: sans-serif;
+    
+    }
+
 #remaining {
-font-size: 12em;
-text-align: center;
-font-family: sans-serif;
-}
+    font-size: 12em;
+    }
+
+#myProgress {
+    width: 95%;    
+    position: absolute;
+    bottom: 10px;
+    background-color: #009fe3;
+    left: 50%;    
+    transform: translate(-50%, -50%);
+    margin: 0 auto;
+    }
+
+#progressBar {
+    width: 1%;
+    height: 30px;
+    background-color: #004376;
+    
+    }
+
+#statusimage {
+    background-image: url(/static/unknown.png);
+    width: 100px;
+    height: 100px;
+    background-repeat: no-repeat;
+    background-size: contain;
+    position: fixed;
+    left: 50%;
+    bottom: 20px;
+    transform: translate(-50%, -50%);
+    margin: 0 auto;
+    }
+
+#filename {
+    font-size: 2em;
+    text-align: center;
+    font-family: sans-serif;
+    margin-top: 2em;
+    }
+
 </style>
 </head>
 <body>
 
-<div id="remaining">(00:00:00)</div>
+
+<div id="filename">
+    ---
+</div>
+<div id="remaining-container">
+    <div id="remaining">--:--:--</div>
+</div>
+<div id="myProgress">
+<div id="progressBar"></div>
+</div>
+
+<div id="statusimage">  
+</div>
+
+
 
 <script>
 var socket=io();
 </script>
+
+
 
 <script>
 socket.on('update', function(json) {
@@ -28,8 +94,36 @@ socket.on('update', function(json) {
   if (hours < 10) hours='0'+hours
   if (minutes < 10) minutes='0'+minutes
   if (seconds < 10) seconds='0'+seconds
-  $('#remaining').text(''+hours+':'+minutes+':'+seconds)
-  console.log('Jemand hat ein send_update auf den Broker geschickt, naemlich')
+  var elem_remaining = document.getElementById("remaining")
+  elem_remaining.textContent = hours + ':' + minutes + ':' + seconds
+
+  remaining = json.remaining
+  duration = json.duration
+  widthpercent = (100*(1-remaining/duration))
+  if (widthpercent < 0) widthpercent = 0
+  if (widthpercent > 100) widthpercent = 100
+  var elem_progressBar = document.getElementById("progressBar")
+  elem_progressBar.style.width = widthpercent + "%"
+
+  status = json.status
+  var elem_status = document.getElementById("statusimage")
+  elem_status.style.backgroundImage = "url(/static/" + status + ".png)"
+
+  filename = json.filename
+  var elem_filename = document.getElementById("filename")
+  elem_filename.textContent = filename
+
+  if (remaining > 120) {
+      document.body.style.backgroundColor = "white";
+  }
+  else if (remaining > 15 ) {
+    document.body.style.backgroundColor = "yellow";
+  }
+  else {
+    document.body.style.backgroundColor = "red";
+  }
+
+  console.log('update: ')
   console.log(json)
 });
 </script>

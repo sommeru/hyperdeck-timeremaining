@@ -24,7 +24,7 @@ def get_current_time():
         s.connect((hyperdeck_url, hyperdeck_port))
     except :
         print ('Unable to connect')
-        status = 'noconnection'
+        return (0, 0, '', 'noconnection')
 
     #print ('Connected to remote host')
 
@@ -73,7 +73,7 @@ def get_current_time():
         
         except ValueError as e:
             pass
-        
+
         except Exception as e:
             return (0, 0, '', 'error')        
 
