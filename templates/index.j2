@@ -1,0 +1,38 @@
+<html>
+<head>
+<title>Javascript sagt Hallo</title>
+<script src="/static/jquery-3.6.3.min.js"></script>
+<script src="/static/socket.io-4.5.4.min.js" crossorigin="anonymous"></script>
+<style>
+#remaining {
+font-size: 12em;
+text-align: center;
+font-family: sans-serif;
+}
+</style>
+</head>
+<body>
+
+<div id="remaining">(00:00:00)</div>
+
+<script>
+var socket=io();
+</script>
+
+<script>
+socket.on('update', function(json) {
+  remaining = json.remaining
+  hours = Math.floor(remaining / 60 / 60); remaining = remaining - hours * 60 * 60
+  minutes = Math.floor(remaining / 60); remaining = remaining - minutes * 60
+  seconds = remaining
+  if (hours < 10) hours='0'+hours
+  if (minutes < 10) minutes='0'+minutes
+  if (seconds < 10) seconds='0'+seconds
+  $('#remaining').text(''+hours+':'+minutes+':'+seconds)
+  console.log('Jemand hat ein send_update auf den Broker geschickt, naemlich')
+  console.log(json)
+});
+</script>
+
+</body>
+</html>
