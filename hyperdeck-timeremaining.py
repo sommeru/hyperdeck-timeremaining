@@ -2,6 +2,7 @@
 
 from flask import Flask, url_for, render_template, request
 from flask_socketio import SocketIO, emit
+import logging
 
 debug_mode = False
 secret_key = 'secret!'
@@ -11,6 +12,10 @@ uid_counter = 0
 app = Flask(__name__)
 app.config['SECRET_KEY'] = secret_key
 socketio = SocketIO(app)
+
+if (debug_mode == True):
+    log = logging.getLogger('werkzeug')
+    log.setLevel(logging.ERROR)
 
 print('server start')
 

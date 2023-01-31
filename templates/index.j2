@@ -3,63 +3,7 @@
 <title>Hyperdeck Time Remaining</title>
 
 <script src="/static/socket.io-4.5.4.min.js" crossorigin="anonymous"></script>
-<style>
-#remaining-container {
-    # width: 100px;
-    height: 12em;
-    position: absolute;
-    top:0;
-    bottom: 0;
-    left: 0;
-    right: 0;    
-    margin: auto;
-    text-align: center;
-    font-family: sans-serif;
-    
-    }
-
-#remaining {
-    font-size: 12em;
-    }
-
-#myProgress {
-    width: 95%;    
-    position: absolute;
-    bottom: 10px;
-    background-color: #009fe3;
-    left: 50%;    
-    transform: translate(-50%, -50%);
-    margin: 0 auto;
-    }
-
-#progressBar {
-    width: 1%;
-    height: 30px;
-    background-color: #004376;
-    
-    }
-
-#statusimage {
-    background-image: url(/static/unknown.png);
-    width: 100px;
-    height: 100px;
-    background-repeat: no-repeat;
-    background-size: contain;
-    position: fixed;
-    left: 50%;
-    bottom: 20px;
-    transform: translate(-50%, -50%);
-    margin: 0 auto;
-    }
-
-#filename {
-    font-size: 2em;
-    text-align: center;
-    font-family: sans-serif;
-    margin-top: 2em;
-    }
-
-</style>
+<link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
 
@@ -107,20 +51,23 @@ socket.on('update', function(json) {
 
   status = json.status
   var elem_status = document.getElementById("statusimage")
-  elem_status.style.backgroundImage = "url(/static/" + status + ".png)"
+  elem_status.style.backgroundImage = "url(/static/" + status + ".svg)"
 
   filename = json.filename
   var elem_filename = document.getElementById("filename")
   elem_filename.textContent = filename
 
   if (remaining > 120) {
-      document.body.style.backgroundColor = "white";
+      document.body.style.backgroundColor = "black";
+      document.body.style.color = "white";
   }
   else if (remaining > 15 ) {
     document.body.style.backgroundColor = "yellow";
+    document.body.style.color = "black";
   }
   else {
     document.body.style.backgroundColor = "red";
+    document.body.style.color = "white";
   }
 
   console.log('update: ')
