@@ -1,6 +1,6 @@
 [Unit]
 Description=hyperdeck-timeremaining
-After=multi-user.target
+After=network.target
 
 [Service]
 Type=simple
@@ -12,4 +12,3 @@ User=pi
 
 [Install]
 WantedBy=multi-user.target
-Requires=network.target
