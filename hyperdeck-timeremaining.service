@@ -1,0 +1,15 @@
+[Unit]
+Description=hyperdeck-timeremaining
+After=multi-user.target
+
+[Service]
+Type=simple
+WorkingDirectory=/home/pi/hyperdeck-timeremaining
+ExecStart=/home/pi/.local/bin/poetry run /home/pi/hyperdeck-timeremaining/hyperdeck-timeremaining.py
+Restart=always
+RestartSec=30
+User=pi
+
+[Install]
+WantedBy=multi-user.target
+Requires=network.target

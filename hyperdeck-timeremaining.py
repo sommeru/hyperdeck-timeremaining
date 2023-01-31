@@ -3,7 +3,7 @@
 from flask import Flask, url_for, render_template, request
 from flask_socketio import SocketIO, emit
 
-debug_mode = True
+debug_mode = False
 secret_key = 'secret!'
 
 uid_counter = 0
@@ -34,5 +34,5 @@ def render_index():
     return render_template('index.j2', secret_key=secret_key)
 
 if __name__ == '__main__':
-    socketio.run(app, host='127.0.0.1', port='1313', debug=debug_mode)
+    socketio.run(app, host='127.0.0.1', port='1313', allow_unsafe_werkzeug=True, debug=debug_mode)
 

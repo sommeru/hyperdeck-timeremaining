@@ -1,0 +1,15 @@
+[Unit]
+Description=hyperdeck-telnetclient
+After=hyperdeck-timeremaining.service
+
+[Service]
+Type=simple
+WorkingDirectory=/home/pi/hyperdeck-telnetclient
+ExecStart=/home/pi/.local/bin/poetry run /home/pi/hyperdeck-telnetclient/hyperdeck-telnetclient.py
+Restart=always
+RestartSec=30
+User=pi
+
+[Install]
+WantedBy=multi-user.target
+Requires=network.target

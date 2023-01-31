@@ -6,7 +6,7 @@ authors = ["Ulrich Sommer <mail@ulrich-sommer.de"]
 license = "GNU GPLv3"
 
 [tool.poetry.dependencies]
-python = "^3.10"
+python = "^3.7"
 Flask-SocketIO = "^5.3.2"
 requests = "^2.28.2"
 
